@@ -1,5 +1,3 @@
-# Atomair
-
 <b>Hello there</b> 👋
 
 Use your own Telegram token and API keys
