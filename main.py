@@ -42,10 +42,13 @@ def start_func(message):
     respond_user = False
 
     bot.send_message(message.chat.id, f"Hello there, <b>{message.from_user.first_name}</b>! 👋", parse_mode='html')
+    time.sleep(1)
     bot.send_message(message.chat.id, f"My name is <b>Atomair</b> telegram bot 🤖", parse_mode='html')
+    time.sleep(1)
     bot.send_message(message.chat.id, f"My mission is to help you get information about current <b>AQI</b> ",
                      parse_mode='html')
-    bot.send_message(message.chat.id, f"To call <b><i>Functions menu</i></b> press 👉 /menu", parse_mode='html')
+    time.sleep(1)
+    bot.send_message(message.chat.id, f"To call <b><i>Main menu</i></b> 📱 press 👉 /menu", parse_mode='html')
 
 
 @bot.message_handler(commands=['menu'])
@@ -54,16 +57,16 @@ def menu_func(message):
     global respond_user
     respond_user = False
 
-    bot.send_message(message.chat.id, "Welcome to the <b>Functions menu</b> 📲\n", parse_mode='html',
+    bot.send_message(message.chat.id, "Welcome to the <b>Main menu</b> \n", parse_mode='html',
                      reply_markup=types.ReplyKeyboardRemove())
-    bot.send_message(message.chat.id, "<b>Choose an option:</b>", parse_mode='html', reply_markup=MenuMarkup.m_markup)
+    bot.send_message(message.chat.id, "<b>Choose an option:</b> 📲", parse_mode='html', reply_markup=MenuMarkup.m_markup)
 
 
 @bot.callback_query_handler(func=lambda call: True)
 def menu_callback(call):
     if call.data == 'location':
 
-        bot.send_message(call.from_user.id, 'Great! 🔥\nNow I need to get your location\n\n'
+        bot.send_message(call.from_user.id, 'Great! 🔥\nNow I need to get your location 📍\n\n'
                                             '<b><i>Note:</i></b> if you are using <b>Telegram Desktop</b>'
                                             ' Location Button will NOT work\n\n'
                                             'Return to the /menu',
@@ -118,7 +121,7 @@ def menu_callback(call):
         pic = open("Data/aqi_table.png", 'rb')
         bot.send_photo(call.from_user.id, pic)
         pic.close()
-        bot.send_message(call.from_user.id, "Return to the <b>Functions menu</b> /menu", parse_mode='html')
+        bot.send_message(call.from_user.id, "Return to the <b>Main menu</b> 📱 /menu", parse_mode='html')
 
 
 def create_message(data):
@@ -139,7 +142,7 @@ def create_message(data):
         marker = 'Dangerous ⬛💀'
 
     message = f"<b>Here is your Air quality data:</b>\n\n " \
-              f"{marker}\n\n<b>{aqi} AQI</b> \n\n" \
+              f"{marker}\n\n<b>AQI --> {aqi}</b> \n\n" \
               f"<b>PM 10</b> --> <b>{data['components']['pm10']}</b> μg/m3\n" \
               f"<b>PM 2.5</b> --> <b>{data['components']['pm2_5']}</b> μg/m3\n" \
               f"<b>CO</b> --> <b>{data['components']['co']}</b>μg/m3\n" \
@@ -160,6 +163,7 @@ def location_func(message):
 
         bot.reply_to(message, 'Location received ✅')
         bot.send_message(message.chat.id, "🔃 Performing your data...", reply_markup=types.ReplyKeyboardRemove())
+        time.sleep(2)
 
         bot.send_message(message.chat.id, to_send, parse_mode='html')
         bot.send_message(message.chat.id, "Return to the <b>Functions menu</b> /menu", parse_mode='html')
@@ -170,7 +174,7 @@ def location_func(message):
                                           "1. Unsupported location\n"
                                           "2. AQI server is not responding\n"
                                           "3. Issues on the Telegram's server\n", parse_mode='html')
-        bot.send_message(message.chat.id, "Return to the <b>Functions menu</b> /menu", parse_mode='html')
+        bot.send_message(message.chat.id, "Return to the <b>Main menu</b> 📱/menu", parse_mode='html')
 
 
 @bot.message_handler(content_types=['text'])
@@ -196,6 +200,7 @@ def city_name_func(message):
 
         bot.reply_to(message, text="Got it ✅")
         bot.send_message(message.chat.id, "🔃 Performing your data...")
+        time.sleep(2)
 
         try:
             coordinates = geocoding.get_coordinates(usr_list[0].title(), usr_list[1].title(), API_KEY)
@@ -213,7 +218,7 @@ def city_name_func(message):
                                               "2. Wrong city or country order\n"
                                               "3. AQI server is not responding\n"
                                               "4. Issues on the Telegram's server\n", parse_mode='html')
-            bot.send_message(message.chat.id, "Return to the <b>Functions menu</b> /menu", parse_mode='html')
+            bot.send_message(message.chat.id, "Return to the <b>Main menu</b> 📱 /menu", parse_mode='html')
 
     else:
         return
