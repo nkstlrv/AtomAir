@@ -37,18 +37,23 @@ class LocationMarkup:
 
 @bot.message_handler(commands=['start'])
 def start_func(message):
+
+    global respond_user
+    respond_user = False
+
     bot.send_message(message.chat.id, f"Hello there, <b>{message.from_user.first_name}</b>! 👋", parse_mode='html')
     bot.send_message(message.chat.id, f"My name is <b>Atomair</b> telegram bot 🤖", parse_mode='html')
     bot.send_message(message.chat.id, f"My mission is to help you get information about current <b>AQI</b> ",
                      parse_mode='html')
-    bot.send_message(message.chat.id, f"🔍 Use /help to see a list of all available commands\n"
-                                      f"👨‍💻 And /dev to get development information about this bot"
-                                      f"", parse_mode='html')
     bot.send_message(message.chat.id, f"To call <b><i>Functions menu</i></b> press 👉 /menu", parse_mode='html')
 
 
 @bot.message_handler(commands=['menu'])
 def menu_func(message):
+
+    global respond_user
+    respond_user = False
+
     bot.send_message(message.chat.id, "Welcome to the <b>Functions menu</b> 📲\n", parse_mode='html',
                      reply_markup=types.ReplyKeyboardRemove())
     bot.send_message(message.chat.id, "<b>Choose an option:</b>", parse_mode='html', reply_markup=MenuMarkup.m_markup)
@@ -212,6 +217,7 @@ def city_name_func(message):
 
     else:
         return
+
 
 
 bot.infinity_polling()
