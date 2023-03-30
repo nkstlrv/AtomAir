@@ -2,5 +2,6 @@ version: '3.7'
 services:
   telebot:
     container_name: Atomair
+    restart: always
     image: dockerbot:latest
 
